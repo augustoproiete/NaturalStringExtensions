@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A40E4FCE-76C0-4203-A359-CE412A28ACD6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A21F092D-AF88-49C9-BA29-9D3658106302}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{4F24789D-F35D-4C2A-B744-70F2BA1B1299}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asset", "asset", "{9EE2DA52-0EC6-4B67-BCAD-0A57AF0F95EC}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		build.cake = build.cake
+		build.cmd = build.cmd
+		build.ps1 = build.ps1
+		build.sh = build.sh
+		cake.config = cake.config
+		CHANGES.md = CHANGES.md
+		CODEOWNERS = CODEOWNERS
+		global.json = global.json
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleConsole", "sample\SampleConsole\SampleConsole.csproj", "{6D96EF45-C13A-4784-8BB6-48214B6FBE4B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NaturalStringExtensions", "src\NaturalStringExtensions\NaturalStringExtensions.csproj", "{1D3AF11E-9062-4146-96E0-87EFEB6E75C8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NaturalStringExtensions.Tests", "test\NaturalStringExtensions.Tests\NaturalStringExtensions.Tests.csproj", "{66B3A125-9518-41F3-A28B-F9AE45A49A3C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6D96EF45-C13A-4784-8BB6-48214B6FBE4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D96EF45-C13A-4784-8BB6-48214B6FBE4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D96EF45-C13A-4784-8BB6-48214B6FBE4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D96EF45-C13A-4784-8BB6-48214B6FBE4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D3AF11E-9062-4146-96E0-87EFEB6E75C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D3AF11E-9062-4146-96E0-87EFEB6E75C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D3AF11E-9062-4146-96E0-87EFEB6E75C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D3AF11E-9062-4146-96E0-87EFEB6E75C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66B3A125-9518-41F3-A28B-F9AE45A49A3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66B3A125-9518-41F3-A28B-F9AE45A49A3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66B3A125-9518-41F3-A28B-F9AE45A49A3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66B3A125-9518-41F3-A28B-F9AE45A49A3C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6D96EF45-C13A-4784-8BB6-48214B6FBE4B} = {4F24789D-F35D-4C2A-B744-70F2BA1B1299}
+		{1D3AF11E-9062-4146-96E0-87EFEB6E75C8} = {A40E4FCE-76C0-4203-A359-CE412A28ACD6}
+		{66B3A125-9518-41F3-A28B-F9AE45A49A3C} = {A21F092D-AF88-49C9-BA29-9D3658106302}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5C1C3FD9-FF97-46E3-926B-6A3ACC0650D9}
+	EndGlobalSection
+EndGlobal
