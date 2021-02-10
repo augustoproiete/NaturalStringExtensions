@@ -28,15 +28,18 @@ Natural sort order is an ordering of strings in alphabetical order, except that 
 
 For example, in alphabetical sorting `Folder11` would be sorted before `Folder2` because `1` is sorted as smaller than `2`, while in natural sorting `Folder2` is sorted before `Folder11` because `2` is sorted as smaller than `11`.
 
-### Alphabetical sorting
+<div align="center">
 
-- `Folder11`
-- `Folder2`
+| Alphabetical   | Natural                       |     | Alphabetical  | Natural                      |
+| -------------- | ----------------------------- | --- | ------------- | ---------------------------- |
+| `Folder1`      | `Folder1`                     |     | `v1.2.0`      | `v1.2.0`                     |
+| `Folder10` :x: | `Folder2`                     |     | `v10.1.0` :x: | `v2.0.0`                     |
+| `Folder11` :x: | `Folder10` :white_check_mark: |     | `v10.5.3` :x: | `v2.1.0`                     |
+| `Folder2`      | `Folder11` :white_check_mark: |     | `v2.0.0`      | `v3.1.0`                     |
+| `Folder20`     | `Folder20`                    |     | `v2.1.0`      | `v10.1.0` :white_check_mark: |
+| `Folder35`     | `Folder35`                    |     | `v3.1.0`      | `v10.5.3` :white_check_mark: |
 
-### Natural sorting
-
-- `Folder2`
-- `Folder11`
+</div>
 
 Example scenarios where `NaturalStringExtensions` can be useful include sorting of file names, folder names, and version numbers.
 
