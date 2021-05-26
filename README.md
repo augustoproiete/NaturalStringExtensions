@@ -119,6 +119,28 @@ var sortedDirectoryNames = currentDirectory.EnumerateDirectories()
     .OrderBy(d => d.FullName, NaturalStringComparer.Ordinal);
 ```
 
+### Sorting Arrays without LINQ
+
+```csharp
+var folderNames = new[]
+{
+    "Folder1000",
+    "Folder200",
+    "Folder30",
+    "Folder4",
+};
+
+Array.Sort(folderNames, NaturalStringComparer.Ordinal);
+
+// Contents of folderNames array:
+//
+// Folder4
+// Folder30
+// Folder200
+// Folder1000
+//
+```
+
 ## Release History
 
 Click on the [Releases](https://github.com/augustoproiete/NaturalStringExtensions/releases) tab on GitHub.
