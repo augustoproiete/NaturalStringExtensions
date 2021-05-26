@@ -28,6 +28,7 @@ jobs:
         job:
           - os: ubuntu-18.04
             build: ./build.sh
+            push: true
           - os: windows-2019
             build: ./build.cmd
           - os: macos-10.15
@@ -50,3 +51,10 @@ jobs:
           fetch-depth: 0
       - name: Build
         run: ${{ matrix.job.build }} --verbosity=diagnostic --target=pack
+      - name: Publish artifacts
+        if: matrix.job.push && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/'))
+        uses: actions/upload-artifact@v2.2.3
+        with:
+          if-no-files-found: warn
+          name: package
+          path: artifacts/nuget/**/*
