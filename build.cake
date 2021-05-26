@@ -7,11 +7,8 @@ var buildVersion = MinVer(s => s.WithTagPrefix("v").WithDefaultPreReleasePhase("
 Task("clean")
     .Does(() =>
 {
-    CleanDirectory("./build/artifacts");
-    CleanDirectories("./src/**/bin");
-    CleanDirectories("./src/**/obj");
-    CleanDirectories("./test/**/bin");
-    CleanDirectories("./test/**/obj");
+    CleanDirectories("./artifacts/**");
+    CleanDirectories("./**/^{bin,obj}");
 });
 
 Task("restore")
@@ -26,30 +23,18 @@ Task("restore")
 
 Task("build")
     .IsDependentOn("restore")
-    .Does(() =>
+    .DoesForEach(new[] { "Debug", "Release" }, (configuration) =>
 {
     DotNetCoreBuild("./NaturalStringExtensions.sln", new DotNetCoreBuildSettings
     {
-        Configuration = "Debug",
+        Configuration = configuration,
         NoRestore = true,
         NoIncremental = false,
-        ArgumentCustomization = args =>
-            args.AppendQuoted($"-p:Version={buildVersion.Version}")
-                .AppendQuoted($"-p:AssemblyVersion={buildVersion.FileVersion}")
-                .AppendQuoted($"-p:FileVersion={buildVersion.FileVersion}")
-                .AppendQuoted($"-p:ContinuousIntegrationBuild=true")
-    });
-
-    DotNetCoreBuild("./NaturalStringExtensions.sln", new DotNetCoreBuildSettings
-    {
-        Configuration = "Release",
-        NoRestore = true,
-        NoIncremental = false,
-        ArgumentCustomization = args =>
-            args.AppendQuoted($"-p:Version={buildVersion.Version}")
-                .AppendQuoted($"-p:AssemblyVersion={buildVersion.FileVersion}")
-                .AppendQuoted($"-p:FileVersion={buildVersion.FileVersion}")
-                .AppendQuoted($"-p:ContinuousIntegrationBuild=true")
+        MSBuildSettings = new DotNetCoreMSBuildSettings()
+            .WithProperty("Version", buildVersion.Version)
+            .WithProperty("AssemblyVersion", buildVersion.AssemblyVersion)
+            .WithProperty("FileVersion", buildVersion.FileVersion)
+            .WithProperty("ContinuousIntegrationBuild", BuildSystem.IsLocalBuild ? "false" : "true")
     });
 });
 
@@ -82,14 +67,14 @@ Task("pack")
         Configuration = "Release",
         NoRestore = true,
         NoBuild = true,
-        OutputDirectory = "./build/artifacts",
-        ArgumentCustomization = args =>
-            args.AppendQuoted($"-p:Version={buildVersion.Version}")
-                .AppendQuoted($"-p:PackageReleaseNotes={releaseNotes}")
+        OutputDirectory = "./artifacts/nuget",
+        MSBuildSettings = new DotNetCoreMSBuildSettings()
+            .WithProperty("Version", buildVersion.Version)
+            .WithProperty("PackageReleaseNotes", releaseNotes)
     });
 });
 
-Task("publish")
+Task("push")
     .IsDependentOn("pack")
     .Does(context =>
 {
@@ -113,7 +98,7 @@ Task("publish")
         ApiKey = apiKey,
     };
 
-    foreach (var nugetPackageFile in GetFiles("./build/artifacts/*.nupkg"))
+    foreach (var nugetPackageFile in GetFiles("./artifacts/nuget/*.nupkg"))
     {
         DotNetCoreNuGetPush(nugetPackageFile.FullPath, nugetPushSettings);
     }
