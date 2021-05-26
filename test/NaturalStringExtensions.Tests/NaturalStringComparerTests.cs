@@ -23,15 +23,18 @@ namespace NaturalStringExtensions.Tests
 {
     public class NaturalStringComparerTests
     {
-        [Fact]
-        public void Compare_uses_natural_sorting_when_comparing_the_two_strings()
+        [Theory]
+        [InlineData("Folder 5", "Folder 10", -1)]
+        [InlineData("Folder 5", "Folder 5", 0)]
+        [InlineData("Folder 10", "Folder 5", 1)]
+        [InlineData("00Folder 5", "00Folder 10", -1)]
+        [InlineData("00Folder 5", "00Folder 5", 0)]
+        [InlineData("00Folder 10", "00Folder 5", 1)]
+        public void Compare_uses_natural_sorting_when_comparing_the_two_strings(string left, string right, int expected)
         {
-            const string left = "Folder 10";
-            const string right = "Folder 5";
-
             var result = new NaturalStringComparer().Compare(left, right);
 
-            result.Should().Be(1);
+            result.Should().Be(expected);
         }
 
         [Fact]
@@ -48,10 +51,16 @@ namespace NaturalStringExtensions.Tests
                 "Folder 4",
                 "Folder 5",
                 "Folder 2",
+                "00Folder 5",
+                "00Folder 1",
+                "00Folder 10",
             };
 
             var expectedOutput = new[]
             {
+                "00Folder 1",
+                "00Folder 5",
+                "00Folder 10",
                 "Folder 1",
                 "Folder 2",
                 "Folder 3",
@@ -67,6 +76,47 @@ namespace NaturalStringExtensions.Tests
 
             output.Should().BeEquivalentTo(expectedOutput)
                 .And.ContainInOrder(expectedOutput);
+        }
+
+        [Fact]
+        public void Can_sort_array_of_string_using_natural_sorting()
+        {
+            var input = new[]
+            {
+                "Folder 3",
+                "Folder 13",
+                "Folder 1",
+                "Folder 26",
+                "Folder 10",
+                "Folder 6",
+                "Folder 4",
+                "Folder 5",
+                "Folder 2",
+                "00Folder 5",
+                "00Folder 1",
+                "00Folder 10",
+            };
+
+            var expected = new[]
+            {
+                "00Folder 1",
+                "00Folder 5",
+                "00Folder 10",
+                "Folder 1",
+                "Folder 2",
+                "Folder 3",
+                "Folder 4",
+                "Folder 5",
+                "Folder 6",
+                "Folder 10",
+                "Folder 13",
+                "Folder 26",
+            };
+
+            Array.Sort(input, NaturalStringComparer.Ordinal);
+
+            input.Should().BeEquivalentTo(expected)
+                .And.ContainInOrder(expected);
         }
 
         [Theory]
