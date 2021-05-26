@@ -116,7 +116,7 @@ using System.IO;
 var currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
 
 var sortedDirectoryNames = currentDirectory.EnumerateDirectories()
-    .OrderBy(d => d.FullName, NaturalStringComparer.Instance);
+    .OrderBy(d => d.FullName, NaturalStringComparer.Ordinal);
 ```
 
 ## Release History

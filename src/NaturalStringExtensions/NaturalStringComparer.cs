@@ -27,8 +27,16 @@ namespace System
         private static readonly Lazy<NaturalStringComparer> _instance = new(isThreadSafe: true);
 
         /// <summary>
-        /// An instance of <see cref="NaturalStringComparer" /> ready to use.
+        /// Gets a <see cref="NaturalStringComparer" /> object that performs a case-sensitive ordinal natural string comparison.
         /// </summary>
+        /// <returns>A <see cref="NaturalStringComparer" /> object.</returns>
+        public static NaturalStringComparer Ordinal => _instance.Value;
+
+        /// <summary>
+        /// Gets a <see cref="NaturalStringComparer" /> object that performs a case-sensitive ordinal natural string comparison.
+        /// </summary>
+        /// <returns>A <see cref="NaturalStringComparer" /> object.</returns>
+        [Obsolete("Use NaturalStringComparer.Ordinal instead. Instance is obsolete and will be removed in a future release.")]
         public static NaturalStringComparer Instance => _instance.Value;
 
         /// <summary>

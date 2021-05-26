@@ -36,7 +36,7 @@ namespace NaturalStringExtensions.Tests
             };
 
             var expected = versions
-                .OrderBy(v => v, NaturalStringComparer.Instance);
+                .OrderBy(v => v, NaturalStringComparer.Ordinal);
 
             var result = versions
                 .OrderByNatural();
@@ -57,7 +57,7 @@ namespace NaturalStringExtensions.Tests
             };
 
             var expected = versions
-                .OrderByDescending(v => v, NaturalStringComparer.Instance);
+                .OrderByDescending(v => v, NaturalStringComparer.Ordinal);
 
             var result = versions
                 .OrderByNaturalDescending();
@@ -79,7 +79,7 @@ namespace NaturalStringExtensions.Tests
 
             var expected = versions
                 .OrderBy(_ => "A", StringComparer.Ordinal)
-                .ThenBy(v => v, NaturalStringComparer.Instance);
+                .ThenBy(v => v, NaturalStringComparer.Ordinal);
 
             var result = versions
                 .OrderBy(_ => "A", StringComparer.Ordinal)
@@ -102,7 +102,7 @@ namespace NaturalStringExtensions.Tests
 
             var expected = versions
                 .OrderBy(_ => "A", StringComparer.Ordinal)
-                .ThenByDescending(v => v, NaturalStringComparer.Instance);
+                .ThenByDescending(v => v, NaturalStringComparer.Ordinal);
 
             var result = versions
                 .OrderBy(_ => "A", StringComparer.Ordinal)
@@ -124,7 +124,7 @@ namespace NaturalStringExtensions.Tests
             };
 
             var expected = versions
-                .OrderBy(v => v, NaturalStringComparer.Instance);
+                .OrderBy(v => v, NaturalStringComparer.Ordinal);
 
             var result = versions
                 .OrderByNatural(v => v);
@@ -145,7 +145,7 @@ namespace NaturalStringExtensions.Tests
             };
 
             var expected = versions
-                .OrderByDescending(v => v, NaturalStringComparer.Instance);
+                .OrderByDescending(v => v, NaturalStringComparer.Ordinal);
 
             var result = versions
                 .OrderByNaturalDescending(v => v);
@@ -167,7 +167,7 @@ namespace NaturalStringExtensions.Tests
 
             var expected = versions
                 .OrderBy(_ => "A", StringComparer.Ordinal)
-                .ThenBy(v => v, NaturalStringComparer.Instance);
+                .ThenBy(v => v, NaturalStringComparer.Ordinal);
 
             var result = versions
                 .OrderBy(_ => "A", StringComparer.Ordinal)
@@ -190,7 +190,7 @@ namespace NaturalStringExtensions.Tests
 
             var expected = versions
                 .OrderBy(_ => "A", StringComparer.Ordinal)
-                .ThenByDescending(v => v, NaturalStringComparer.Instance);
+                .ThenByDescending(v => v, NaturalStringComparer.Ordinal);
 
             var result = versions
                 .OrderBy(_ => "A", StringComparer.Ordinal)

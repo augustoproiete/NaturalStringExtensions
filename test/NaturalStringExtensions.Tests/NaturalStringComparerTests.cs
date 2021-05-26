@@ -83,7 +83,7 @@ namespace NaturalStringExtensions.Tests
         [Fact]
         public void Can_access_singleton_instance()
         {
-            NaturalStringComparer.Instance.Should().NotBeNull()
+            NaturalStringComparer.Ordinal.Should().NotBeNull()
                 .And.BeOfType<NaturalStringComparer>();
         }
     }
