@@ -15,6 +15,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.ComponentModel;
 
 // ReSharper disable once CheckNamespace
 namespace System
@@ -22,22 +23,74 @@ namespace System
     /// <summary>
     /// A comparer to compare any two strings using natural sorting.
     /// </summary>
-    public sealed class NaturalStringComparer : IComparer<string?>
+    public class NaturalStringComparer : IComparer<string?>
     {
-        private static readonly Lazy<NaturalStringComparer> _instance = new(isThreadSafe: true);
+        private readonly StringComparison _comparison;
 
         /// <summary>
-        /// Gets a <see cref="NaturalStringComparer" /> object that performs a case-sensitive ordinal natural string comparison.
+        /// Compare strings using natural ordinal (binary) sort rules.
         /// </summary>
-        /// <returns>A <see cref="NaturalStringComparer" /> object.</returns>
-        public static NaturalStringComparer Ordinal => _instance.Value;
+        public static NaturalStringComparer Ordinal { get; } =
+            new NaturalStringComparer(StringComparison.Ordinal);
+
+        /// <summary>
+        /// Compare strings using natural ordinal (binary) sort rules and ignoring the case of the strings being compared.
+        /// </summary>
+        public static NaturalStringComparer OrdinalIgnoreCase { get; } =
+            new NaturalStringComparer(StringComparison.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Compare strings using natural culture-sensitive sort rules and the invariant culture.
+        /// </summary>
+        public static NaturalStringComparer InvariantCulture { get; } =
+            new NaturalStringComparer(StringComparison.InvariantCulture);
+
+        /// <summary>
+        /// Compare strings using natural culture-sensitive sort rules, the invariant culture, and ignoring the case of the strings being compared.
+        /// </summary>
+        public static NaturalStringComparer InvariantCultureIgnoreCase { get; } =
+            new NaturalStringComparer(StringComparison.InvariantCultureIgnoreCase);
+
+        /// <summary>
+        /// Compare strings using natural culture-sensitive sort rules and the current culture.
+        /// </summary>
+        public static NaturalStringComparer CurrentCulture { get; } =
+            new NaturalStringComparer(StringComparison.CurrentCulture);
+
+        /// <summary>
+        /// Compare strings using natural culture-sensitive sort rules, the current culture, and ignoring the case of the strings being compared.
+        /// </summary>
+        public static NaturalStringComparer CurrentCultureIgnoreCase { get; } =
+            new NaturalStringComparer(StringComparison.CurrentCultureIgnoreCase);
 
         /// <summary>
         /// Gets a <see cref="NaturalStringComparer" /> object that performs a case-sensitive ordinal natural string comparison.
         /// </summary>
         /// <returns>A <see cref="NaturalStringComparer" /> object.</returns>
         [Obsolete("Use NaturalStringComparer.Ordinal instead. Instance is obsolete and will be removed in a future release.")]
-        public static NaturalStringComparer Instance => _instance.Value;
+        public static NaturalStringComparer Instance => Ordinal;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="NaturalStringComparer"/> class using <see cref="StringComparison.OrdinalIgnoreCase"/>.
+        /// </summary>
+        public NaturalStringComparer()
+            : this(StringComparison.OrdinalIgnoreCase)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="NaturalStringComparer"/> class with the specified <see cref="StringComparison"/>.
+        /// </summary>
+        /// <param name="comparison">The <see cref="StringComparison"/> to use.</param>
+        public NaturalStringComparer(StringComparison comparison)
+        {
+            if (!Enum.IsDefined(typeof(StringComparison), comparison))
+            {
+                throw new InvalidEnumArgumentException(nameof(comparison), (int) comparison, typeof(StringComparison));
+            }
+
+            _comparison = comparison;
+        }
 
         /// <summary>
         /// Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
@@ -49,54 +102,113 @@ namespace System
         /// </returns>
         public int Compare(string? left, string? right)
         {
-            if (left is null && right is null)
+            // Let string.Compare handle the case where left or right is null
+            if (left is null || right is null)
             {
-                return 0;
+                return string.Compare(left, right, _comparison);
             }
 
-            if (left is null)
+            var leftSegments = GetSegments(left);
+            var rightSegments = GetSegments(right);
+
+            while (leftSegments.MoveNext() && rightSegments.MoveNext())
+            {
+#if NETSTANDARD2_0 || NETFRAMEWORK_461
+                var leftIsNumber = int.TryParse(leftSegments.Current.ToString(), out var leftValue);
+                var rightIsNumber = int.TryParse(rightSegments.Current.ToString(), out var rightValue);
+#else
+                var leftIsNumber = int.TryParse(leftSegments.Current, out var leftValue);
+                var rightIsNumber = int.TryParse(rightSegments.Current, out var rightValue);
+#endif
+
+                int cmp;
+
+                // If they're both numbers, compare the value
+                if (leftIsNumber && rightIsNumber)
+                {
+                    cmp = leftValue.CompareTo(rightValue);
+                    if (cmp != 0)
+                    {
+                        return cmp;
+                    }
+                }
+
+                // If left is a number and right is not, left is "lesser than" right
+                else if (leftIsNumber)
+                {
+                    return -1;
+                }
+
+                // If right is a number and left is not, left is "greater than" right
+                else if (rightIsNumber)
+                {
+                    return 1;
+                }
+
+                // OK, neither are number, compare the segments as text
+                cmp = leftSegments.Current.CompareTo(rightSegments.Current, _comparison);
+                if (cmp != 0)
+                {
+                    return cmp;
+                }
+            }
+
+            // At this point, either all segments are equal, or one string is shorter than the other
+
+            // If left is shorter, it's "lesser than" right
+            if (left.Length < right.Length)
             {
                 return -1;
             }
 
-            if (right is null)
+            // If left is longer, it's "greater than" right
+            if (left.Length > right.Length)
             {
                 return 1;
             }
 
-            var lengthOfLeft = left.Length;
-            var lengthOfRight = right.Length;
+            // If they have the same length, they're equal
+            return 0;
+        }
 
-            for (int indexLeft = 0, indexRight = 0; indexLeft < lengthOfLeft && indexRight < lengthOfRight; indexLeft++, indexRight++)
+        private static StringSegmentEnumerator GetSegments(string value) => new StringSegmentEnumerator(value);
+
+        private struct StringSegmentEnumerator
+        {
+            private readonly string _value;
+            private int _start;
+            private int _length;
+            private int _currentPosition;
+
+            public StringSegmentEnumerator(string value)
             {
-                if (char.IsDigit(left[indexLeft]) && char.IsDigit(right[indexRight]))
-                {
-                    long numericValueLeft = 0;
-                    long numericValueRight = 0;
-
-                    for (; indexLeft < lengthOfLeft && char.IsDigit(left[indexLeft]); indexLeft++)
-                    {
-                        numericValueLeft = numericValueLeft * 10 + left[indexLeft] - '0';
-                    }
-
-                    for (; indexRight < lengthOfRight && char.IsDigit(right[indexRight]); indexRight++)
-                    {
-                        numericValueRight = numericValueRight * 10 + right[indexRight] - '0';
-                    }
-
-                    if (numericValueLeft != numericValueRight)
-                    {
-                        return numericValueLeft > numericValueRight ? 1 : -1;
-                    }
-                }
-
-                if (indexLeft < lengthOfLeft && indexRight < lengthOfRight && left[indexLeft] != right[indexRight])
-                {
-                    return left[indexLeft] > right[indexRight] ? 1 : -1;
-                }
+                _value = value;
+                _start = -1;
+                _length = 0;
+                _currentPosition = 0;
             }
 
-            return lengthOfLeft - lengthOfRight;
+            public ReadOnlySpan<char> Current => _value.AsSpan(_start, _length);
+
+            public bool MoveNext()
+            {
+                if (_currentPosition >= _value.Length)
+                {
+                    return false;
+                }
+
+                var start = _currentPosition;
+                var isFirstCharDigit = char.IsDigit(_value[_currentPosition]);
+
+                while (++_currentPosition < _value.Length && char.IsDigit(_value[_currentPosition]) == isFirstCharDigit)
+                {
+                }
+
+                _start = start;
+                _length = _currentPosition - start;
+
+                return true;
+            }
         }
     }
 }
