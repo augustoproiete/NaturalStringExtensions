@@ -14,6 +14,7 @@
 //
 #endregion
 
+using System.Collections;
 using System.Collections.Generic;
 
 // ReSharper disable once CheckNamespace
@@ -22,7 +23,7 @@ namespace System
     /// <summary>
     /// A comparer to compare any two strings using natural sorting.
     /// </summary>
-    public interface INaturalStringComparer : IComparer<string?>
+    public interface INaturalStringComparer : IComparer<string?>, IComparer
     {
         /// <summary>
         /// Compares two strings and returns a value indicating whether one is less than the other.

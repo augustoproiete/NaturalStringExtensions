@@ -255,6 +255,16 @@ namespace NaturalStringExtensions.Tests
             result.Should().Be(expected);
         }
 
+        [Theory]
+        [InlineData("v1.2.3", "v1.10.0", -1)]
+        [InlineData("v1.10.0", "v1.2.3", 1)]
+        [InlineData("v1.2.3", "v1.2.3", 0)]
+        public void Compare_object_object_uses_natural_string_comparison(object? left, object? right, int expected)
+        {
+            var result = NaturalStringComparer.OrdinalIgnoreCase.Compare(left, right);
+            result.Should().Be(expected);
+        }
+
         [Fact]
         public void Can_access_singleton_instances()
         {

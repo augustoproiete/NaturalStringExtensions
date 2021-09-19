@@ -224,6 +224,24 @@ namespace System
             return Compare(left, right) >= 0;
         }
 
+        /// <inheritdoc/>
+        public int Compare(object? x, object? y)
+        {
+            var leftAsString = x as string;
+            if (!(leftAsString is null) || x is null)
+            {
+                var rightAsString = y as string;
+                if (!(rightAsString is null) || y is null)
+                {
+                    return Compare(leftAsString, rightAsString);
+                }
+
+                throw new ArgumentException($"{nameof(y)} must be a string or null", nameof(y));
+            }
+
+            throw new ArgumentException($"{nameof(x)} must be a string or null", nameof(x));
+        }
+
         private static StringSegmentEnumerator GetSegments(string value) => new StringSegmentEnumerator(value);
 
         private struct StringSegmentEnumerator
