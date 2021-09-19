@@ -16,6 +16,9 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+#if !NETSTANDARD2_0 && !NETFRAMEWORK_461
+using System.Diagnostics.CodeAnalysis;
+#endif
 
 // ReSharper disable once CheckNamespace
 namespace System
@@ -240,6 +243,36 @@ namespace System
             }
 
             throw new ArgumentException($"{nameof(x)} must be a string or null", nameof(x));
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(string? x, string? y)
+        {
+            return IsEqual(x, y);
+        }
+
+        /// <inheritdoc/>
+#if NETSTANDARD2_0 || NETFRAMEWORK_461
+        public int GetHashCode(string? obj)
+#else
+        public int GetHashCode([DisallowNull] string? obj)
+#endif
+        {
+            if (obj is null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+
+#if NETSTANDARD2_0 || NETFRAMEWORK_461
+            return obj.GetHashCode();
+#else
+            if (_comparer is null)
+            {
+                return obj.GetHashCode(_comparisonType);
+            }
+
+            return obj.GetHashCode(StringComparison.Ordinal);
+#endif
         }
 
         private static StringSegmentEnumerator GetSegments(string value) => new StringSegmentEnumerator(value);

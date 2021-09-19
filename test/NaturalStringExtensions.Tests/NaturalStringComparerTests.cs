@@ -265,6 +265,29 @@ namespace NaturalStringExtensions.Tests
             result.Should().Be(expected);
         }
 
+        [Theory]
+        [InlineData("v1.2.3", "v1.10.0", false)]
+        [InlineData("v1.10.0", "v1.2.3", false)]
+        [InlineData("v1.2.3", "v1.2.3", true)]
+        [InlineData(null, "v1.2.3", false)]
+        [InlineData("v1.2.3", null, false)]
+        public void Equals_uses_natural_string_comparison(string left, string right, bool expected)
+        {
+            var result = NaturalStringComparer.OrdinalIgnoreCase.Equals(left, right);
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("v1.2.3")]
+        [InlineData("v1.10.0")]
+        public void GetHashCode_uses_natural_string_comparison(string value)
+        {
+            var expected = value.GetHashCode();
+
+            var result = NaturalStringComparer.Ordinal.GetHashCode(value);
+            result.Should().Be(expected);
+        }
+
         [Fact]
         public void Can_access_singleton_instances()
         {
