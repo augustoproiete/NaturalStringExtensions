@@ -17,8 +17,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions;
+using System.Runtime.InteropServices;
 using Xunit;
+using FluentAssertions;
+using NaturalStringExtensions.Tests.Support;
 
 namespace NaturalStringExtensions.Tests
 {
@@ -73,6 +75,38 @@ namespace NaturalStringExtensions.Tests
                 "Folder 13",
                 "Folder 26",
             };
+
+            var output = input.OrderBy(s => s, new NaturalStringComparer()).ToArray();
+
+            output.Should().BeEquivalentTo(expectedOutput)
+                .And.ContainInOrder(expectedOutput);
+        }
+
+        [SkippableFact]
+        public void NaturalStringComparer_OrdinalIgnoreCase_behaves_like_Windows_StrCmpLogicalW_API()
+        {
+            Skip.IfNot(RuntimeInformation.IsOSPlatform(OSPlatform.Windows));
+
+            var input = new[]
+            {
+                "Folder 3",
+                "Folder 13",
+                "FOlder 1",
+                "Folder 1",
+                "Folder 26",
+                "Folder 10",
+                "Folder 6",
+                "Folder 4",
+                "Folder 5",
+                "FOlder 5",
+                "Folder 2",
+                "00Folder 5",
+                "00Folder 1",
+                "00FOlder 1",
+                "00Folder 10",
+            };
+
+            var expectedOutput = input.OrderBy(s => s, new StrCmpLogicalWStringComparer()).ToArray();
 
             var output = input.OrderBy(s => s, new NaturalStringComparer()).ToArray();
 
