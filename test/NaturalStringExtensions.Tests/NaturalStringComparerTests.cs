@@ -15,6 +15,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Xunit;
@@ -24,15 +25,10 @@ namespace NaturalStringExtensions.Tests
     public class NaturalStringComparerTests
     {
         [Theory]
-        [InlineData("Folder 5", "Folder 10", -1)]
-        [InlineData("Folder 5", "Folder 5", 0)]
-        [InlineData("Folder 10", "Folder 5", 1)]
-        [InlineData("00Folder 5", "00Folder 10", -1)]
-        [InlineData("00Folder 5", "00Folder 5", 0)]
-        [InlineData("00Folder 10", "00Folder 5", 1)]
-        public void Compare_uses_natural_sorting_when_comparing_the_two_strings(string left, string right, int expected)
+        [MemberData(nameof(TestData))]
+        public void Compare_uses_natural_sorting_when_comparing_the_two_strings(string left, string right, StringComparison comparison, int expected)
         {
-            var result = new NaturalStringComparer().Compare(left, right);
+            var result = new NaturalStringComparer(comparison).Compare(left, right);
 
             result.Should().Be(expected);
         }
@@ -44,28 +40,34 @@ namespace NaturalStringExtensions.Tests
             {
                 "Folder 3",
                 "Folder 13",
+                "FOlder 1",
                 "Folder 1",
                 "Folder 26",
                 "Folder 10",
                 "Folder 6",
                 "Folder 4",
                 "Folder 5",
+                "FOlder 5",
                 "Folder 2",
                 "00Folder 5",
                 "00Folder 1",
+                "00FOlder 1",
                 "00Folder 10",
             };
 
             var expectedOutput = new[]
             {
                 "00Folder 1",
+                "00FOlder 1",
                 "00Folder 5",
                 "00Folder 10",
+                "FOlder 1",
                 "Folder 1",
                 "Folder 2",
                 "Folder 3",
                 "Folder 4",
                 "Folder 5",
+                "FOlder 5",
                 "Folder 6",
                 "Folder 10",
                 "Folder 13",
@@ -85,56 +87,122 @@ namespace NaturalStringExtensions.Tests
             {
                 "Folder 3",
                 "Folder 13",
+                "FOlder 1",
                 "Folder 1",
                 "Folder 26",
                 "Folder 10",
                 "Folder 6",
                 "Folder 4",
                 "Folder 5",
+                "FOlder 5",
                 "Folder 2",
                 "00Folder 5",
                 "00Folder 1",
+                "00FOlder 1",
                 "00Folder 10",
             };
 
             var expected = new[]
             {
                 "00Folder 1",
+                "00FOlder 1",
                 "00Folder 5",
                 "00Folder 10",
+                "FOlder 1",
                 "Folder 1",
                 "Folder 2",
                 "Folder 3",
                 "Folder 4",
                 "Folder 5",
+                "FOlder 5",
                 "Folder 6",
                 "Folder 10",
                 "Folder 13",
                 "Folder 26",
             };
 
-            Array.Sort(input, NaturalStringComparer.Ordinal);
+            Array.Sort(input, NaturalStringComparer.OrdinalIgnoreCase);
 
             input.Should().BeEquivalentTo(expected)
                 .And.ContainInOrder(expected);
         }
 
-        [Theory]
-        [InlineData("Folder", "Folder")]
-        [InlineData("FolderWithLongName", "Folder")]
-        [InlineData("Folder", "FolderWithLongName")]
-        public void Compare_returns_difference_in_length_of_the_two_strings(string left, string right)
-        {
-            var result = new NaturalStringComparer().Compare(left, right);
-
-            result.Should().Be(left.Length - right.Length);
-        }
-
         [Fact]
-        public void Can_access_singleton_instance()
+        public void Can_access_singleton_instances()
         {
             NaturalStringComparer.Ordinal.Should().NotBeNull()
                 .And.BeOfType<NaturalStringComparer>();
+
+            NaturalStringComparer.OrdinalIgnoreCase.Should().NotBeNull()
+                .And.BeOfType<NaturalStringComparer>();
+
+            NaturalStringComparer.InvariantCulture.Should().NotBeNull()
+                .And.BeOfType<NaturalStringComparer>();
+
+            NaturalStringComparer.InvariantCultureIgnoreCase.Should().NotBeNull()
+                .And.BeOfType<NaturalStringComparer>();
+
+            NaturalStringComparer.CurrentCulture.Should().NotBeNull()
+                .And.BeOfType<NaturalStringComparer>();
+
+            NaturalStringComparer.CurrentCultureIgnoreCase.Should().NotBeNull()
+                .And.BeOfType<NaturalStringComparer>();
+        }
+
+        public static IEnumerable<object[]> TestData
+        {
+            get
+            {
+                var allComparisons = Enum.GetValues(typeof(StringComparison)).Cast<StringComparison>();
+
+                var testCasesAllComparisons = new[]
+                {
+                    new { Left = "Folder", Right = "Folder", Expected = 0 },
+                    new { Left = "Folder10", Right = "Folder5", Expected = 1 },
+                    new { Left = "Folder5", Right = "Folder10", Expected = -1 },
+                };
+
+                var testCasesAllComparisonsMatrix =
+                    from t in testCasesAllComparisons
+                    from c in allComparisons
+                    select new { t.Left, t.Right, Comparison = c, t.Expected };
+
+                var testCasesAllCaseSensitive = new[]
+                {
+                    new { Left = "Folder", Right = "FOlder", Comparison = StringComparison.Ordinal, Expected = 32 },
+                    new { Left = "FOlder", Right = "Folder", Comparison = StringComparison.Ordinal, Expected = -32 },
+                    new { Left = "Folder5", Right = "FOlder5", Comparison = StringComparison.Ordinal, Expected = 32 },
+                    new { Left = "FOlder5", Right = "Folder5", Comparison = StringComparison.Ordinal, Expected = -32 },
+                    new { Left = "Folder5", Right = "FOlder1", Comparison = StringComparison.Ordinal, Expected = 32 },
+                    new { Left = "FOlder1", Right = "Folder5", Comparison = StringComparison.Ordinal, Expected = -32 },
+                    new { Left = "000Folder5", Right = "000FOlder1", Comparison = StringComparison.Ordinal, Expected = 32 },
+                    new { Left = "000FOlder1", Right = "000Folder5", Comparison = StringComparison.Ordinal, Expected = -32 },
+                };
+
+                var testCasesAllCaseInsensitive = new[]
+                {
+                    new { Left = "Folder", Right = "FOlder", Comparison = StringComparison.OrdinalIgnoreCase, Expected = 0 },
+                    new { Left = "FOlder", Right = "Folder", Comparison = StringComparison.OrdinalIgnoreCase, Expected = 0 },
+                    new { Left = "Folder5", Right = "FOlder5", Comparison = StringComparison.OrdinalIgnoreCase, Expected = 0 },
+                    new { Left = "FOlder5", Right = "Folder5", Comparison = StringComparison.OrdinalIgnoreCase, Expected = 0 },
+                    new { Left = "Folder5", Right = "FOlder1", Comparison = StringComparison.OrdinalIgnoreCase, Expected = 1 },
+                    new { Left = "FOlder1", Right = "Folder5", Comparison = StringComparison.OrdinalIgnoreCase, Expected = -1 },
+                    new { Left = "000Folder5", Right = "000FOlder1", Comparison = StringComparison.OrdinalIgnoreCase, Expected = 1 },
+                    new { Left = "000FOlder1", Right = "000Folder5", Comparison = StringComparison.OrdinalIgnoreCase, Expected = -1 },
+                };
+
+                return testCasesAllComparisonsMatrix
+                    .Concat(testCasesAllCaseSensitive)
+                    .Concat(testCasesAllCaseInsensitive)
+                    .Select(x => new object[]
+                        {
+                            x.Left,
+                            x.Right,
+                            x.Comparison,
+                            x.Expected,
+                        }
+                    );
+            }
         }
     }
 }
