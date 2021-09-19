@@ -14,6 +14,7 @@
 //
 #endregion
 
+using System.Collections.Generic;
 using System.ComponentModel;
 
 // ReSharper disable once CheckNamespace
@@ -24,7 +25,8 @@ namespace System
     /// </summary>
     public class NaturalStringComparer : INaturalStringComparer
     {
-        private readonly StringComparison _comparison;
+        private readonly StringComparison _comparisonType;
+        private readonly IComparer<string?>? _comparer;
 
         /// <summary>
         /// Compare strings using natural ordinal (binary) sort rules.
@@ -80,15 +82,24 @@ namespace System
         /// <summary>
         /// Initializes a new instance of <see cref="NaturalStringComparer"/> class with the specified <see cref="StringComparison"/>.
         /// </summary>
-        /// <param name="comparison">The <see cref="StringComparison"/> to use.</param>
-        public NaturalStringComparer(StringComparison comparison)
+        /// <param name="comparisonType">The <see cref="StringComparison"/> to use.</param>
+        public NaturalStringComparer(StringComparison comparisonType)
         {
-            if (!Enum.IsDefined(typeof(StringComparison), comparison))
+            if (!Enum.IsDefined(typeof(StringComparison), comparisonType))
             {
-                throw new InvalidEnumArgumentException(nameof(comparison), (int) comparison, typeof(StringComparison));
+                throw new InvalidEnumArgumentException(nameof(comparisonType), (int)comparisonType, typeof(StringComparison));
             }
 
-            _comparison = comparison;
+            _comparisonType = comparisonType;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="NaturalStringComparer"/> class with the specified <see cref="IComparer{T}"/>.
+        /// </summary>
+        /// <param name="comparer">The <see cref="IComparer{T}"/> to use.</param>
+        public NaturalStringComparer(IComparer<string?> comparer)
+        {
+            _comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
         }
 
         /// <summary>
@@ -104,7 +115,12 @@ namespace System
             // Let string.Compare handle the case where left or right is null
             if (left is null || right is null)
             {
-                return string.Compare(left, right, _comparison);
+                if (_comparer is null)
+                {
+                    return string.Compare(left, right, _comparisonType);
+                }
+
+                return _comparer.Compare(left, right);
             }
 
             var leftSegments = GetSegments(left);
@@ -145,7 +161,15 @@ namespace System
                 }
 
                 // OK, neither are number, compare the segments as text
-                cmp = leftSegments.Current.CompareTo(rightSegments.Current, _comparison);
+                if (_comparer is null)
+                {
+                    cmp = leftSegments.Current.CompareTo(rightSegments.Current, _comparisonType);
+                }
+                else
+                {
+                    cmp = _comparer.Compare(left.ToString(), right.ToString());
+                }
+
                 if (cmp != 0)
                 {
                     return cmp;
