@@ -24,5 +24,54 @@ namespace System
     /// </summary>
     public interface INaturalStringComparer : IComparer<string?>
     {
+        /// <summary>
+        /// Compares two strings and returns a value indicating whether one is less than the other.
+        /// </summary>
+        /// <param name="left">The first string to compare.</param>
+        /// <param name="right">The second string to compare.</param>
+        /// <returns>
+        /// <see langword="true"/> when <paramref name="left" /> is less than <paramref name="right" />. Otherwise <see langword="false"/>.
+        /// </returns>
+        bool IsLessThan(string? left, string? right);
+
+        /// <summary>
+        /// Compares two strings and returns a value indicating whether one is less than or equal to the other.
+        /// </summary>
+        /// <param name="left">The first string to compare.</param>
+        /// <param name="right">The second string to compare.</param>
+        /// <returns>
+        /// <see langword="true"/> when <paramref name="left" /> is less or equal than <paramref name="right" />. Otherwise <see langword="false"/>.
+        /// </returns>
+        bool IsLessThanOrEqual(string? left, string? right);
+
+        /// <summary>
+        /// Compares two strings and returns a value indicating whether they are equal.
+        /// </summary>
+        /// <param name="left">The first string to compare.</param>
+        /// <param name="right">The second string to compare.</param>
+        /// <returns>
+        /// <see langword="true"/> when <paramref name="left" /> is equal to <paramref name="right" />. Otherwise <see langword="false"/>.
+        /// </returns>
+        bool IsEqual(string? left, string? right);
+
+        /// <summary>
+        /// Compares two strings and returns a value indicating whether one is greater than the other.
+        /// </summary>
+        /// <param name="left">The first string to compare.</param>
+        /// <param name="right">The second string to compare.</param>
+        /// <returns>
+        /// <see langword="true"/> when <paramref name="left" /> is greater than <paramref name="right" />. Otherwise <see langword="false"/>.
+        /// </returns>
+        bool IsGreaterThan(string? left, string? right);
+
+        /// <summary>
+        /// Compares two strings and returns a value indicating whether one is greater than or equal to the other.
+        /// </summary>
+        /// <param name="left">The first string to compare.</param>
+        /// <param name="right">The second string to compare.</param>
+        /// <returns>
+        /// <see langword="true"/> when <paramref name="left" /> is less or equal than <paramref name="right" />. Otherwise <see langword="false"/>.
+        /// </returns>
+        bool IsGreaterThanOrEqual(string? left, string? right);
     }
 }

@@ -92,10 +92,10 @@ namespace System
         }
 
         /// <summary>
-        /// Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
+        /// Compares two strings and returns a value indicating whether one is less than, equal to, or greater than the other.
         /// </summary>
-        /// <param name="left">The first object to compare.</param>
-        /// <param name="right">The second object to compare.</param>
+        /// <param name="left">The first strings to compare.</param>
+        /// <param name="right">The second strings to compare.</param>
         /// <returns>
         /// Value Condition Less than zero <paramref name="left" /> is less than <paramref name="right" />. Zero <paramref name="left" /> equals <paramref name="right" />. Greater than zero <paramref name="left" /> is greater than <paramref name="right" />.
         /// </returns>
@@ -168,6 +168,36 @@ namespace System
 
             // If they have the same length, they're equal
             return 0;
+        }
+
+        /// <inheritdoc/>
+        public bool IsLessThan(string? left, string? right)
+        {
+            return Compare(left, right) < 0;
+        }
+
+        /// <inheritdoc/>
+        public bool IsLessThanOrEqual(string? left, string? right)
+        {
+            return Compare(left, right) <= 0;
+        }
+
+        /// <inheritdoc/>
+        public bool IsEqual(string? left, string? right)
+        {
+            return Compare(left, right) == 0;
+        }
+
+        /// <inheritdoc/>
+        public bool IsGreaterThan(string? left, string? right)
+        {
+            return Compare(left, right) > 0;
+        }
+
+        /// <inheritdoc/>
+        public bool IsGreaterThanOrEqual(string? left, string? right)
+        {
+            return Compare(left, right) >= 0;
         }
 
         private static StringSegmentEnumerator GetSegments(string value) => new StringSegmentEnumerator(value);

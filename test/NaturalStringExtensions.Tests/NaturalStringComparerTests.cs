@@ -161,6 +161,56 @@ namespace NaturalStringExtensions.Tests
                 .And.ContainInOrder(expected);
         }
 
+        [Theory]
+        [InlineData("v1.2.3", "v1.10.0", true)]
+        [InlineData("v1.10.0", "v1.2.3", false)]
+        [InlineData("v1.2.3", "v1.2.3", false)]
+        public void IsLessThan_uses_natural_string_comparison(string left, string right, bool expected)
+        {
+            var result = NaturalStringComparer.OrdinalIgnoreCase.IsLessThan(left, right);
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("v1.2.3", "v1.10.0", true)]
+        [InlineData("v1.10.0", "v1.2.3", false)]
+        [InlineData("v1.2.3", "v1.2.3", true)]
+        public void IsLessThanOrEqual_uses_natural_string_comparison(string left, string right, bool expected)
+        {
+            var result = NaturalStringComparer.OrdinalIgnoreCase.IsLessThanOrEqual(left, right);
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("v1.2.3", "v1.10.0", false)]
+        [InlineData("v1.10.0", "v1.2.3", false)]
+        [InlineData("v1.2.3", "v1.2.3", true)]
+        public void IsEqual_uses_natural_string_comparison(string left, string right, bool expected)
+        {
+            var result = NaturalStringComparer.OrdinalIgnoreCase.IsEqual(left, right);
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("v1.2.3", "v1.10.0", false)]
+        [InlineData("v1.10.0", "v1.2.3", true)]
+        [InlineData("v1.2.3", "v1.2.3", false)]
+        public void IsGreaterThan_uses_natural_string_comparison(string left, string right, bool expected)
+        {
+            var result = NaturalStringComparer.OrdinalIgnoreCase.IsGreaterThan(left, right);
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("v1.2.3", "v1.10.0", false)]
+        [InlineData("v1.10.0", "v1.2.3", true)]
+        [InlineData("v1.2.3", "v1.2.3", true)]
+        public void IsGreaterThanOrEqual_uses_natural_string_comparison(string left, string right, bool expected)
+        {
+            var result = NaturalStringComparer.OrdinalIgnoreCase.IsGreaterThanOrEqual(left, right);
+            result.Should().Be(expected);
+        }
+
         [Fact]
         public void Can_access_singleton_instances()
         {
