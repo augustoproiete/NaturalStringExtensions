@@ -275,6 +275,40 @@ namespace System
 #endif
         }
 
+        /// <inheritdoc/>
+        public new bool Equals(object? x, object? y)
+        {
+            var leftAsString = x as string;
+            if (!(leftAsString is null) || x is null)
+            {
+                var rightAsString = y as string;
+                if (!(rightAsString is null) || y is null)
+                {
+                    return IsEqual(leftAsString, rightAsString);
+                }
+
+                throw new ArgumentException($"{nameof(y)} must be a string or null", nameof(y));
+            }
+
+            throw new ArgumentException($"{nameof(x)} must be a string or null", nameof(x));
+        }
+
+        /// <inheritdoc/>
+        public int GetHashCode(object obj)
+        {
+            if (obj is null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+
+            if (obj is string text)
+            {
+                return GetHashCode(text);
+            }
+
+            throw new ArgumentException($"{nameof(obj)} must be a string", nameof(obj));
+        }
+
         private static StringSegmentEnumerator GetSegments(string value) => new StringSegmentEnumerator(value);
 
         private struct StringSegmentEnumerator

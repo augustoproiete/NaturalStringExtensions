@@ -23,7 +23,7 @@ namespace System
     /// <summary>
     /// A comparer to compare any two strings using natural sorting.
     /// </summary>
-    public interface INaturalStringComparer : IComparer<string?>, IEqualityComparer<string?>, IComparer
+    public interface INaturalStringComparer : IComparer<string?>, IEqualityComparer<string?>, IComparer, IEqualityComparer
     {
         /// <summary>
         /// Compares two strings and returns a value indicating whether one is less than the other.
