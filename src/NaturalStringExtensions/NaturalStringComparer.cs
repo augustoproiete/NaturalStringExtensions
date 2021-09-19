@@ -14,7 +14,6 @@
 //
 #endregion
 
-using System.Collections.Generic;
 using System.ComponentModel;
 
 // ReSharper disable once CheckNamespace
@@ -23,44 +22,44 @@ namespace System
     /// <summary>
     /// A comparer to compare any two strings using natural sorting.
     /// </summary>
-    public class NaturalStringComparer : IComparer<string?>
+    public class NaturalStringComparer : INaturalStringComparer
     {
         private readonly StringComparison _comparison;
 
         /// <summary>
         /// Compare strings using natural ordinal (binary) sort rules.
         /// </summary>
-        public static NaturalStringComparer Ordinal { get; } =
+        public static INaturalStringComparer Ordinal { get; } =
             new NaturalStringComparer(StringComparison.Ordinal);
 
         /// <summary>
         /// Compare strings using natural ordinal (binary) sort rules and ignoring the case of the strings being compared.
         /// </summary>
-        public static NaturalStringComparer OrdinalIgnoreCase { get; } =
+        public static INaturalStringComparer OrdinalIgnoreCase { get; } =
             new NaturalStringComparer(StringComparison.OrdinalIgnoreCase);
 
         /// <summary>
         /// Compare strings using natural culture-sensitive sort rules and the invariant culture.
         /// </summary>
-        public static NaturalStringComparer InvariantCulture { get; } =
+        public static INaturalStringComparer InvariantCulture { get; } =
             new NaturalStringComparer(StringComparison.InvariantCulture);
 
         /// <summary>
         /// Compare strings using natural culture-sensitive sort rules, the invariant culture, and ignoring the case of the strings being compared.
         /// </summary>
-        public static NaturalStringComparer InvariantCultureIgnoreCase { get; } =
+        public static INaturalStringComparer InvariantCultureIgnoreCase { get; } =
             new NaturalStringComparer(StringComparison.InvariantCultureIgnoreCase);
 
         /// <summary>
         /// Compare strings using natural culture-sensitive sort rules and the current culture.
         /// </summary>
-        public static NaturalStringComparer CurrentCulture { get; } =
+        public static INaturalStringComparer CurrentCulture { get; } =
             new NaturalStringComparer(StringComparison.CurrentCulture);
 
         /// <summary>
         /// Compare strings using natural culture-sensitive sort rules, the current culture, and ignoring the case of the strings being compared.
         /// </summary>
-        public static NaturalStringComparer CurrentCultureIgnoreCase { get; } =
+        public static INaturalStringComparer CurrentCultureIgnoreCase { get; } =
             new NaturalStringComparer(StringComparison.CurrentCultureIgnoreCase);
 
         /// <summary>
@@ -68,7 +67,7 @@ namespace System
         /// </summary>
         /// <returns>A <see cref="NaturalStringComparer" /> object.</returns>
         [Obsolete("Use NaturalStringComparer.Ordinal instead. Instance is obsolete and will be removed in a future release.")]
-        public static NaturalStringComparer Instance => Ordinal;
+        public static INaturalStringComparer Instance => Ordinal;
 
         /// <summary>
         /// Initializes a new instance of <see cref="NaturalStringComparer"/> class using <see cref="StringComparison.OrdinalIgnoreCase"/>.
