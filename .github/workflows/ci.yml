@@ -46,6 +46,10 @@ jobs:
         uses: actions/setup-dotnet@v1.8.2
         with:
           dotnet-version: "5.0.401"
+      - name: Setup net6.0
+        uses: actions/setup-dotnet@v1.8.1
+        with:
+          dotnet-version: "6.0.100-rc.1.21458.32"
       - name: Run dotnet --info
         run: dotnet --info
       - uses: actions/checkout@v2.3.4
