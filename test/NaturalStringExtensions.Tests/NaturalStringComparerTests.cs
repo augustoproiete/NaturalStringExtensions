@@ -161,6 +161,50 @@ namespace NaturalStringExtensions.Tests
                 .And.ContainInOrder(expected);
         }
 
+        [Fact]
+        public void Can_be_used_in_a_SortedDictionary_with_a_string_key()
+        {
+            var sortedDictionary = new SortedDictionary<string, object?>(NaturalStringComparer.Ordinal);
+
+            sortedDictionary.Add("Folder 3", null);
+            sortedDictionary.Add("Folder 13", null);
+            sortedDictionary.Add("FOlder 1", null);
+            sortedDictionary.Add("Folder 1", null);
+            sortedDictionary.Add("Folder 26", null);
+            sortedDictionary.Add("Folder 10", null);
+            sortedDictionary.Add("Folder 6", null);
+            sortedDictionary.Add("Folder 4", null);
+            sortedDictionary.Add("Folder 5", null);
+            sortedDictionary.Add("FOlder 5", null);
+            sortedDictionary.Add("Folder 2", null);
+            sortedDictionary.Add("00Folder 5", null);
+            sortedDictionary.Add("00Folder 1", null);
+            sortedDictionary.Add("00FOlder 1", null);
+            sortedDictionary.Add("00Folder 10", null);
+
+            var expected = new[]
+            {
+                "00FOlder 1",
+                "00Folder 1",
+                "00Folder 5",
+                "00Folder 10",
+                "FOlder 1",
+                "FOlder 5",
+                "Folder 1",
+                "Folder 2",
+                "Folder 3",
+                "Folder 4",
+                "Folder 5",
+                "Folder 6",
+                "Folder 10",
+                "Folder 13",
+                "Folder 26",
+            };
+
+            sortedDictionary.Keys.Select(k => k).Should().BeEquivalentTo(expected)
+                .And.ContainInOrder(expected);
+        }
+
         [Theory]
         [InlineData("v1.2.3", "v1.10.0", true)]
         [InlineData("v1.10.0", "v1.2.3", false)]
