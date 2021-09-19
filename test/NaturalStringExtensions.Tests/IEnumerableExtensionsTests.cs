@@ -15,17 +15,19 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions;
 using Xunit;
+using FluentAssertions;
 
 namespace NaturalStringExtensions.Tests
 {
     // ReSharper disable once InconsistentNaming
     public class IEnumerableExtensionsTests
     {
-        [Fact]
-        public void OrderByNatural_is_equivalent_to_OrderBy_KeySelector_with_NaturalStringComparer()
+        [Theory]
+        [MemberData(nameof(TestData))]
+        public void OrderByNatural_is_equivalent_to_OrderBy_KeySelector_with_NaturalStringComparer(StringComparison comparisonType)
         {
             var versions = new[]
             {
@@ -36,17 +38,18 @@ namespace NaturalStringExtensions.Tests
             };
 
             var expected = versions
-                .OrderBy(v => v, NaturalStringComparer.Ordinal);
+                .OrderBy(v => v, NaturalStringComparer.FromComparison(comparisonType));
 
             var result = versions
-                .OrderByNatural();
+                .OrderByNatural(comparisonType);
 
             result.Should().BeEquivalentTo(expected,
                 options => options.WithStrictOrdering());
         }
 
-        [Fact]
-        public void OrderByNaturalDescending_is_equivalent_to_OrderByDescending_KeySelector_with_NaturalStringComparer()
+        [Theory]
+        [MemberData(nameof(TestData))]
+        public void OrderByNaturalDescending_is_equivalent_to_OrderByDescending_KeySelector_with_NaturalStringComparer(StringComparison comparisonType)
         {
             var versions = new[]
             {
@@ -57,17 +60,18 @@ namespace NaturalStringExtensions.Tests
             };
 
             var expected = versions
-                .OrderByDescending(v => v, NaturalStringComparer.Ordinal);
+                .OrderByDescending(v => v, NaturalStringComparer.FromComparison(comparisonType));
 
             var result = versions
-                .OrderByNaturalDescending();
+                .OrderByNaturalDescending(comparisonType);
 
             result.Should().BeEquivalentTo(expected,
                 options => options.WithStrictOrdering());
         }
 
-        [Fact]
-        public void ThenByNatural_is_equivalent_to_ThenBy_KeySelector_with_NaturalStringComparer()
+        [Theory]
+        [MemberData(nameof(TestData))]
+        public void ThenByNatural_is_equivalent_to_ThenBy_KeySelector_with_NaturalStringComparer(StringComparison comparisonType)
         {
             var versions = new[]
             {
@@ -78,19 +82,20 @@ namespace NaturalStringExtensions.Tests
             };
 
             var expected = versions
-                .OrderBy(_ => "A", StringComparer.Ordinal)
-                .ThenBy(v => v, NaturalStringComparer.Ordinal);
+                .OrderBy(_ => "A", StringComparerFromComparison(comparisonType))
+                .ThenBy(v => v, NaturalStringComparer.FromComparison(comparisonType));
 
             var result = versions
-                .OrderBy(_ => "A", StringComparer.Ordinal)
-                .ThenByNatural();
+                .OrderBy(_ => "A", StringComparerFromComparison(comparisonType))
+                .ThenByNatural(comparisonType);
 
             result.Should().BeEquivalentTo(expected,
                 options => options.WithStrictOrdering());
         }
 
-        [Fact]
-        public void ThenByNaturalDescending_is_equivalent_to_ThenByDescending_KeySelector_with_NaturalStringComparer()
+        [Theory]
+        [MemberData(nameof(TestData))]
+        public void ThenByNaturalDescending_is_equivalent_to_ThenByDescending_KeySelector_with_NaturalStringComparer(StringComparison comparisonType)
         {
             var versions = new[]
             {
@@ -101,19 +106,20 @@ namespace NaturalStringExtensions.Tests
             };
 
             var expected = versions
-                .OrderBy(_ => "A", StringComparer.Ordinal)
-                .ThenByDescending(v => v, NaturalStringComparer.Ordinal);
+                .OrderBy(_ => "A", StringComparerFromComparison(comparisonType))
+                .ThenByDescending(v => v, NaturalStringComparer.FromComparison(comparisonType));
 
             var result = versions
-                .OrderBy(_ => "A", StringComparer.Ordinal)
-                .ThenByNaturalDescending();
+                .OrderBy(_ => "A", StringComparerFromComparison(comparisonType))
+                .ThenByNaturalDescending(comparisonType);
 
             result.Should().BeEquivalentTo(expected,
                 options => options.WithStrictOrdering());
         }
 
-        [Fact]
-        public void OrderByNatural_KeySelector_is_equivalent_to_OrderBy_KeySelector_with_NaturalStringComparer()
+        [Theory]
+        [MemberData(nameof(TestData))]
+        public void OrderByNatural_KeySelector_is_equivalent_to_OrderBy_KeySelector_with_NaturalStringComparer(StringComparison comparisonType)
         {
             var versions = new[]
             {
@@ -124,17 +130,18 @@ namespace NaturalStringExtensions.Tests
             };
 
             var expected = versions
-                .OrderBy(v => v, NaturalStringComparer.Ordinal);
+                .OrderBy(v => v, NaturalStringComparer.FromComparison(comparisonType));
 
             var result = versions
-                .OrderByNatural(v => v);
+                .OrderByNatural(v => v, comparisonType);
 
             result.Should().BeEquivalentTo(expected,
                 options => options.WithStrictOrdering());
         }
 
-        [Fact]
-        public void OrderByNaturalDescending_KeySelector_is_equivalent_to_OrderByDescending_KeySelector_with_NaturalStringComparer()
+        [Theory]
+        [MemberData(nameof(TestData))]
+        public void OrderByNaturalDescending_KeySelector_is_equivalent_to_OrderByDescending_KeySelector_with_NaturalStringComparer(StringComparison comparisonType)
         {
             var versions = new[]
             {
@@ -145,17 +152,18 @@ namespace NaturalStringExtensions.Tests
             };
 
             var expected = versions
-                .OrderByDescending(v => v, NaturalStringComparer.Ordinal);
+                .OrderByDescending(v => v, NaturalStringComparer.FromComparison(comparisonType));
 
             var result = versions
-                .OrderByNaturalDescending(v => v);
+                .OrderByNaturalDescending(v => v, comparisonType);
 
             result.Should().BeEquivalentTo(expected,
                 options => options.WithStrictOrdering());
         }
 
-        [Fact]
-        public void ThenByNatural_KeySelector_is_equivalent_to_ThenBy_KeySelector_with_NaturalStringComparer()
+        [Theory]
+        [MemberData(nameof(TestData))]
+        public void ThenByNatural_KeySelector_is_equivalent_to_ThenBy_KeySelector_with_NaturalStringComparer(StringComparison comparisonType)
         {
             var versions = new[]
             {
@@ -166,19 +174,20 @@ namespace NaturalStringExtensions.Tests
             };
 
             var expected = versions
-                .OrderBy(_ => "A", StringComparer.Ordinal)
-                .ThenBy(v => v, NaturalStringComparer.Ordinal);
+                .OrderBy(_ => "A", StringComparerFromComparison(comparisonType))
+                .ThenBy(v => v, NaturalStringComparer.FromComparison(comparisonType));
 
             var result = versions
-                .OrderBy(_ => "A", StringComparer.Ordinal)
-                .ThenByNatural(v => v);
+                .OrderBy(_ => "A", StringComparerFromComparison(comparisonType))
+                .ThenByNatural(v => v, comparisonType);
 
             result.Should().BeEquivalentTo(expected,
                 options => options.WithStrictOrdering());
         }
 
-        [Fact]
-        public void ThenByNaturalDescending_KeySelector_is_equivalent_to_ThenByDescending_KeySelector_with_NaturalStringComparer()
+        [Theory]
+        [MemberData(nameof(TestData))]
+        public void ThenByNaturalDescending_KeySelector_is_equivalent_to_ThenByDescending_KeySelector_with_NaturalStringComparer(StringComparison comparisonType)
         {
             var versions = new[]
             {
@@ -189,15 +198,44 @@ namespace NaturalStringExtensions.Tests
             };
 
             var expected = versions
-                .OrderBy(_ => "A", StringComparer.Ordinal)
-                .ThenByDescending(v => v, NaturalStringComparer.Ordinal);
+                .OrderBy(_ => "A", StringComparerFromComparison(comparisonType))
+                .ThenByDescending(v => v, NaturalStringComparer.FromComparison(comparisonType));
 
             var result = versions
-                .OrderBy(_ => "A", StringComparer.Ordinal)
-                .ThenByNaturalDescending( v => v);
+                .OrderBy(_ => "A", StringComparerFromComparison(comparisonType))
+                .ThenByNaturalDescending(v => v, comparisonType);
 
             result.Should().BeEquivalentTo(expected,
                 options => options.WithStrictOrdering());
+        }
+
+        public static IEnumerable<object[]> TestData
+        {
+            get
+            {
+                var allComparisons = Enum.GetValues(typeof(StringComparison)).Cast<StringComparison>();
+
+                return allComparisons
+                    .Select(comparisonType => new object[]
+                        {
+                            comparisonType,
+                        }
+                    );
+            }
+        }
+
+        private StringComparer StringComparerFromComparison(StringComparison comparisonType)
+        {
+            return comparisonType switch
+            {
+                StringComparison.CurrentCulture => StringComparer.CurrentCulture,
+                StringComparison.CurrentCultureIgnoreCase => StringComparer.CurrentCultureIgnoreCase,
+                StringComparison.InvariantCulture => StringComparer.InvariantCulture,
+                StringComparison.InvariantCultureIgnoreCase => StringComparer.InvariantCultureIgnoreCase,
+                StringComparison.Ordinal => StringComparer.Ordinal,
+                StringComparison.OrdinalIgnoreCase => StringComparer.OrdinalIgnoreCase,
+                _ => throw new ArgumentException($"{comparisonType} is not supported", nameof(comparisonType)),
+            };
         }
     }
 }
