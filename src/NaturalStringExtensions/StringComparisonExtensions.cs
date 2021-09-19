@@ -30,7 +30,7 @@ namespace System
         /// <returns>An instance of <see cref="NaturalStringComparer"/> with the <paramref name="comparisonType"/> provided.</returns>
         public static INaturalStringComparer AsNatural(this StringComparison comparisonType)
         {
-            return new NaturalStringComparer(comparisonType);
+            return NaturalStringComparer.FromComparison(comparisonType);
         }
     }
 }

@@ -227,6 +227,27 @@ namespace System
             return Compare(left, right) >= 0;
         }
 
+        /// <summary>
+        /// Converts the specified <paramref name="comparisonType"/> instance to a <see cref="NaturalStringComparer"/> instance.
+        /// </summary>
+        /// <param name="comparisonType">A string comparer instance to convert.</param>
+        /// <returns>
+        /// A <see cref="NaturalStringComparer"/> instance representing the equivalent value of the specified
+        /// <paramref name="comparisonType"/> instance.</returns>
+        public static INaturalStringComparer FromComparison(StringComparison comparisonType)
+        {
+            return comparisonType switch
+            {
+                StringComparison.CurrentCulture => CurrentCulture,
+                StringComparison.CurrentCultureIgnoreCase => CurrentCultureIgnoreCase,
+                StringComparison.InvariantCulture => InvariantCulture,
+                StringComparison.InvariantCultureIgnoreCase => InvariantCultureIgnoreCase,
+                StringComparison.Ordinal => Ordinal,
+                StringComparison.OrdinalIgnoreCase => OrdinalIgnoreCase,
+                _ => throw new ArgumentException($"{comparisonType} is not supported", nameof(comparisonType)),
+            };
+        }
+
         /// <inheritdoc/>
         public int Compare(object? x, object? y)
         {
