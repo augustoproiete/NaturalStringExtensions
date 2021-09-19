@@ -31,7 +31,7 @@ namespace System.Linq
         /// <exception cref="T:System.ArgumentNullException">
         /// <paramref name="source" /> is <see langword="null" />.</exception>
         public static IOrderedEnumerable<string> OrderByNatural(this IEnumerable<string> source) =>
-            source.OrderBy(s => s, NaturalStringComparer.Ordinal);
+            source.OrderBy(s => s, NaturalStringComparer.OrdinalIgnoreCase);
 
         /// <summary>Sorts the elements of a sequence of strings in natural descending order by using the <see cref="NaturalStringComparer" /> comparer.</summary>
         /// <param name="source">A sequence of values to order.</param>
@@ -39,7 +39,7 @@ namespace System.Linq
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source" /> is <see langword="null" />.</exception>
         public static IOrderedEnumerable<string> OrderByNaturalDescending(this IEnumerable<string> source) =>
-            source.OrderByDescending(s => s, NaturalStringComparer.Ordinal);
+            source.OrderByDescending(s => s, NaturalStringComparer.OrdinalIgnoreCase);
 
         /// <summary>Performs a subsequent ordering of the elements in a sequence of strings in natural ascending order by using the <see cref="NaturalStringComparer" /> comparer.</summary>
         /// <param name="source">An <see cref="T:System.Linq.IOrderedEnumerable`1" /> that contains elements to sort.</param>
@@ -47,7 +47,7 @@ namespace System.Linq
         /// <paramref name="source" /> is <see langword="null" />.</exception>
         /// <returns>An <see cref="T:System.Linq.IOrderedEnumerable`1" /> whose elements are sorted according to a key.</returns>
         public static IOrderedEnumerable<string> ThenByNatural(this IOrderedEnumerable<string> source) =>
-            source.ThenBy(s => s, NaturalStringComparer.Ordinal);
+            source.ThenBy(s => s, NaturalStringComparer.OrdinalIgnoreCase);
 
         /// <summary>Performs a subsequent ordering of the elements in a sequence of strings in natural descending order by using the <see cref="NaturalStringComparer" /> comparer.</summary>
         /// <param name="source">An <see cref="T:System.Linq.IOrderedEnumerable`1" /> that contains elements to sort.</param>
@@ -55,7 +55,7 @@ namespace System.Linq
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source" /> is <see langword="null" />.</exception>
         public static IOrderedEnumerable<string> ThenByNaturalDescending(this IOrderedEnumerable<string> source) =>
-            source.ThenByDescending(s => s, NaturalStringComparer.Ordinal);
+            source.ThenByDescending(s => s, NaturalStringComparer.OrdinalIgnoreCase);
 
         /// <summary>Sorts the elements of a sequence in natural ascending order by using the <see cref="NaturalStringComparer" /> comparer.</summary>
         /// <param name="source">A sequence of values to order.</param>
@@ -65,7 +65,7 @@ namespace System.Linq
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source" /> or <paramref name="keySelector" /> is <see langword="null" />.</exception>
         public static IOrderedEnumerable<TSource> OrderByNatural<TSource>(this IEnumerable<TSource> source, Func<TSource, string?> keySelector) =>
-            source.OrderBy(keySelector, NaturalStringComparer.Ordinal);
+            source.OrderBy(keySelector, NaturalStringComparer.OrdinalIgnoreCase);
 
         /// <summary>Sorts the elements of a sequence in natural descending order by using the <see cref="NaturalStringComparer" /> comparer.</summary>
         /// <param name="source">A sequence of values to order.</param>
@@ -75,7 +75,7 @@ namespace System.Linq
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source" /> or <paramref name="keySelector" /> is <see langword="null" />.</exception>
         public static IOrderedEnumerable<TSource> OrderByNaturalDescending<TSource>(this IEnumerable<TSource> source, Func<TSource, string?> keySelector) =>
-            source.OrderByDescending(keySelector, NaturalStringComparer.Ordinal);
+            source.OrderByDescending(keySelector, NaturalStringComparer.OrdinalIgnoreCase);
 
         /// <summary>Performs a subsequent ordering of the elements in a sequence in natural ascending order by using the <see cref="NaturalStringComparer" /> comparer.</summary>
         /// <param name="source">An <see cref="T:System.Linq.IOrderedEnumerable`1" /> that contains elements to sort.</param>
@@ -85,7 +85,7 @@ namespace System.Linq
         /// <paramref name="source" /> or <paramref name="keySelector" /> is <see langword="null" />.</exception>
         /// <returns>An <see cref="T:System.Linq.IOrderedEnumerable`1" /> whose elements are sorted according to a key.</returns>
         public static IOrderedEnumerable<TSource> ThenByNatural<TSource>(this IOrderedEnumerable<TSource> source, Func<TSource, string?> keySelector) =>
-            source.ThenBy(keySelector, NaturalStringComparer.Ordinal);
+            source.ThenBy(keySelector, NaturalStringComparer.OrdinalIgnoreCase);
 
         /// <summary>Performs a subsequent ordering of the elements in a sequence in natural descending order by using the <see cref="NaturalStringComparer" /> comparer.</summary>
         /// <param name="source">An <see cref="T:System.Linq.IOrderedEnumerable`1" /> that contains elements to sort.</param>
@@ -95,6 +95,6 @@ namespace System.Linq
         /// <exception cref="ArgumentNullException">
         /// <paramref name="source" /> or <paramref name="keySelector" /> is <see langword="null" />.</exception>
         public static IOrderedEnumerable<TSource> ThenByNaturalDescending<TSource>(this IOrderedEnumerable<TSource> source, Func<TSource, string?> keySelector) =>
-            source.ThenByDescending(keySelector, NaturalStringComparer.Ordinal);
+            source.ThenByDescending(keySelector, NaturalStringComparer.OrdinalIgnoreCase);
     }
 }
