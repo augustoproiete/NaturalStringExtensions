@@ -21,6 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asset", "asset", "{9EE2DA52
 		cake.config = cake.config
 		CHANGES.md = CHANGES.md
 		CODEOWNERS = CODEOWNERS
+		Directory.Build.props = Directory.Build.props
 		global.json = global.json
 		LICENSE = LICENSE
 		README.md = README.md
