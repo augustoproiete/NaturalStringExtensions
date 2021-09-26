@@ -7,7 +7,7 @@ var buildVersion = MinVer(s => s.WithTagPrefix("v").WithDefaultPreReleasePhase("
 Task("clean")
     .Does(() =>
 {
-    CleanDirectories("./artifacts/**");
+    CleanDirectories("./artifact/**");
     CleanDirectories("./**/^{bin,obj}");
 });
 
@@ -67,7 +67,7 @@ Task("pack")
         Configuration = "Release",
         NoRestore = true,
         NoBuild = true,
-        OutputDirectory = "./artifacts/nuget",
+        OutputDirectory = "./artifact/nuget",
         MSBuildSettings = new DotNetCoreMSBuildSettings()
             .WithProperty("Version", buildVersion.Version)
             .WithProperty("PackageReleaseNotes", releaseNotes)
@@ -98,7 +98,7 @@ Task("push")
         ApiKey = apiKey,
     };
 
-    foreach (var nugetPackageFile in GetFiles("./artifacts/nuget/*.nupkg"))
+    foreach (var nugetPackageFile in GetFiles("./artifact/nuget/*.nupkg"))
     {
         DotNetCoreNuGetPush(nugetPackageFile.FullPath, nugetPushSettings);
     }
