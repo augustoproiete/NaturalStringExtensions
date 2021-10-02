@@ -37,6 +37,8 @@ jobs:
             build: ./build.cmd
           - os: macos-10.15
             build: ./build.sh
+          - os: macos-11
+            build: ./build.sh
     name: ${{ matrix.job.os }}
     runs-on: ${{ matrix.job.os }}
     steps:
