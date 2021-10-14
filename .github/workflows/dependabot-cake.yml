@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: check/update cake dependencies
-        uses: augustoproiete-actions/nils-org--dependabot-cake-action@v1
+        uses: augustoproiete-actions/nils-org--dependabot-cake-action@v1.1.0
