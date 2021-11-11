@@ -45,15 +45,15 @@ jobs:
       - name: Setup netcoreapp3.1
         uses: actions/setup-dotnet@v1.8.2
         with:
-          dotnet-version: "3.1.413"
+          dotnet-version: "3.1.415"
       - name: Setup net5.0
         uses: actions/setup-dotnet@v1.8.2
         with:
-          dotnet-version: "5.0.401"
+          dotnet-version: "5.0.403"
       - name: Setup net6.0
-        uses: actions/setup-dotnet@v1.8.1
+        uses: actions/setup-dotnet@v1.8.2
         with:
-          dotnet-version: "6.0.100-rc.1.21463.6"
+          dotnet-version: "6.0.100"
       - name: Run dotnet --info
         run: dotnet --info
       - uses: actions/checkout@v2.4.0
