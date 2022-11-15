@@ -1,12 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net5.0;netstandard2.0;net461</TargetFrameworks>
+    <TargetFrameworks>net7.0;net6.0;net5.0;netstandard2.0;net461</TargetFrameworks>
 
     <AssemblyName>NaturalStringExtensions</AssemblyName>
     <AssemblyVersion>0.0.1.0</AssemblyVersion>
-    <LangVersion>9.0</LangVersion>
-    <Nullable>enable</Nullable>
     <GenerateAssemblyVersionAttribute>true</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>true</GenerateAssemblyFileVersionAttribute>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -20,9 +18,7 @@
 
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>../../asset/natural-string-extensions.snk</AssemblyOriginatorKeyFile>
-    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
 
-    <NoWarn>$(NoWarn);NU5048</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <TreatSpecificWarningsAsErrors />
   </PropertyGroup>
@@ -34,7 +30,7 @@
     <Authors>C. Augusto Proiete &amp; Contributors</Authors>
     <Company>augustoproiete.net</Company>
     <Description>Extensions for sorting strings using natural sort order i.e. Alphabetical order for humans.</Description>
-    <Copyright>Copyright 2021 C. Augusto Proiete &amp; Contributors - Provided under the Apache License, Version 2.0</Copyright>
+    <Copyright>Copyright 2021-2022 C. Augusto Proiete &amp; Contributors - Provided under the Apache License, Version 2.0</Copyright>
     <PackageTags>natural;sort;order;string;extensions</PackageTags>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIcon>images\icon.png</PackageIcon>

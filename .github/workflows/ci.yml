@@ -26,18 +26,12 @@ jobs:
       fail-fast: false
       matrix:
         job:
-          - os: ubuntu-18.04
-            build: ./build.sh
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             build: ./build.sh
             push: true
-          - os: windows-2019
-            build: ./build.cmd
           - os: windows-2022
             build: ./build.cmd
-          - os: macos-10.15
-            build: ./build.sh
-          - os: macos-11
+          - os: macos-12
             build: ./build.sh
     name: ${{ matrix.job.os }}
     runs-on: ${{ matrix.job.os }}
@@ -45,7 +39,7 @@ jobs:
       - name: Setup netcoreapp3.1
         uses: actions/setup-dotnet@v3.0.3
         with:
-          dotnet-version: "3.1.415"
+          dotnet-version: "3.1.425"
       - name: Setup net5.0
         uses: actions/setup-dotnet@v3.0.3
         with:
@@ -53,7 +47,11 @@ jobs:
       - name: Setup net6.0
         uses: actions/setup-dotnet@v3.0.3
         with:
-          dotnet-version: "6.0.100"
+          dotnet-version: "6.0.403"
+      - name: Setup net7.0
+        uses: actions/setup-dotnet@v3.0.3
+        with:
+          dotnet-version: "7.0.100"
       - name: Run dotnet --info
         run: dotnet --info
       - uses: actions/checkout@v3.1.0
