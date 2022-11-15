@@ -16,7 +16,7 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
-#if !NETSTANDARD2_0 && !NETFRAMEWORK_461
+#if !NETSTANDARD2_0 && !NETFRAMEWORK_462
 using System.Diagnostics.CodeAnalysis;
 #endif
 
@@ -131,7 +131,7 @@ namespace System
 
             while (leftSegments.MoveNext() && rightSegments.MoveNext())
             {
-#if NETSTANDARD2_0 || NETFRAMEWORK_461
+#if NETSTANDARD2_0 || NETFRAMEWORK_462
                 var leftIsNumber = int.TryParse(leftSegments.Current.ToString(), out var leftValue);
                 var rightIsNumber = int.TryParse(rightSegments.Current.ToString(), out var rightValue);
 #else
@@ -273,7 +273,7 @@ namespace System
         }
 
         /// <inheritdoc/>
-#if NETSTANDARD2_0 || NETFRAMEWORK_461
+#if NETSTANDARD2_0 || NETFRAMEWORK_462
         public int GetHashCode(string? obj)
 #else
         public int GetHashCode([DisallowNull] string? obj)
@@ -284,7 +284,7 @@ namespace System
                 throw new ArgumentNullException(nameof(obj));
             }
 
-#if NETSTANDARD2_0 || NETFRAMEWORK_461
+#if NETSTANDARD2_0 || NETFRAMEWORK_462
             return obj.GetHashCode();
 #else
             if (_comparer is null)

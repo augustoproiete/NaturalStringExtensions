@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net6.0;net5.0;netstandard2.0;net461</TargetFrameworks>
+    <TargetFrameworks>net7.0;net6.0;net5.0;netstandard2.0;net462</TargetFrameworks>
 
     <AssemblyName>NaturalStringExtensions</AssemblyName>
     <AssemblyVersion>0.0.1.0</AssemblyVersion>
@@ -41,16 +41,16 @@
     <RepositoryUrl>https://github.com/augustoproiete/NaturalStringExtensions.git</RepositoryUrl>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net462' ">
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
-    <DefineConstants>$(DefineConstants);NETFRAMEWORK_461</DefineConstants>
+    <DefineConstants>$(DefineConstants);NETFRAMEWORK_462</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <DefineConstants>$(DefineConstants);NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -74,7 +74,7 @@
     <PackageReference Include="System.Memory" Version="4.5.5" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
     <PackageReference Include="System.Memory" Version="4.5.5" />
   </ItemGroup>
