@@ -1,0 +1,11 @@
+﻿namespace System
+{
+    public static class IComparerOfStringExtensions { }
+    public interface INaturalStringComparer : System.Collections.Generic.IComparer<string?>, System.Collections.Generic.IEqualityComparer<string?>, System.Collections.IComparer, System.Collections.IEqualityComparer { }
+    public class NaturalStringComparer : System.Collections.Generic.IComparer<string?>, System.Collections.Generic.IEqualityComparer<string?>, System.Collections.IComparer, System.Collections.IEqualityComparer, System.INaturalStringComparer { }
+    public static class StringComparisonExtensions { }
+}
+namespace System.Linq
+{
+    public static class IEnumerableExtensions { }
+}

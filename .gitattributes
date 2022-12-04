@@ -4,3 +4,4 @@
 # Explicitly declare files that should always be converted to LF regardless of platform
 *.sh text eol=lf
 *.dotsettings text eol=lf
+*.verified.txt text eol=lf
