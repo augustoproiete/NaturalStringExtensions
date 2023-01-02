@@ -147,4 +147,4 @@ Click on the [Releases](https://github.com/augustoproiete/NaturalStringExtension
 
 ---
 
-_Copyright &copy; 2021-2022 C. Augusto Proiete & Contributors - Provided under the [Apache License, Version 2.0](LICENSE). `NaturalStringExtensions` logo is a derivative of work by [Benjamin STAWARZ](https://www.iconfinder.com/bensta) ([original](https://www.iconfinder.com/icons/6138342/desc_direction_down_numeric_sort_filter_icon))._
+_Copyright &copy; 2021-2023 C. Augusto Proiete & Contributors - Provided under the [Apache License, Version 2.0](LICENSE). `NaturalStringExtensions` logo is a derivative of work by [Benjamin STAWARZ](https://www.iconfinder.com/bensta) ([original](https://www.iconfinder.com/icons/6138342/desc_direction_down_numeric_sort_filter_icon))._
